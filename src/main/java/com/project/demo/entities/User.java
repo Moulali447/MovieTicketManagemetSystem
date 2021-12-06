@@ -78,6 +78,12 @@ public class User implements UserDetails, Serializable {
 	@OrderBy
 	@JsonIgnore
 	private List<Authority> authorities ;
+	
+	@OneToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@OrderBy
+	@JsonIgnore
+	private List<Theatres> theatres;
 
 	@Override
 	public boolean isAccountNonExpired() {

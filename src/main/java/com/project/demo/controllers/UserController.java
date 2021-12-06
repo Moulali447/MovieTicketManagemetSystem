@@ -21,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.demo.customExceptions.CustomException;
 import com.project.demo.customExceptions.ResourceNotFoundException;
 
 import com.project.demo.entities.User;
-import com.project.demo.entities.UserDto;
+import com.project.demo.dto.UserDto;
 import com.project.demo.service.UserDetailsServiceImpl;
 import com.project.demo.service.UserService;
 
@@ -44,6 +45,10 @@ public class UserController {
         return detailsServiceImpl.getAll();
     }
 	
+	@GetMapping(value="get/{id}")
+	public ResponseEntity<User> getUserById(@PathVariable int id) throws CustomException {
+		return ResponseEntity.ok().body(detailsServiceImpl.getById(id));
+	}
 	
 	@PostMapping("/add")
     @ResponseStatus(value = HttpStatus.OK)
@@ -55,16 +60,16 @@ public class UserController {
     }
 	
 	
-	@DeleteMapping("/user/{id}")
-	public HttpStatus deleteById(@PathVariable int id){
-		this.detailsServiceImpl.deleteById(id);
-		return HttpStatus.OK;
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<Map<String, Boolean>> deleteById(@PathVariable int id) throws ResourceNotFoundException{
+		return this.detailsServiceImpl.deleteById(id);
+		 
 	}
 	
-	@PutMapping(value="/user/{id}")
-	public ResponseEntity<User> update(@RequestBody User users,@PathVariable Integer id) {
+	@PutMapping("/update/{id}")
+	public ResponseEntity<User> update(@RequestBody UserDto users,@PathVariable int id) throws CustomException {
 		users.setId(id);
-		return ResponseEntity.ok().body(detailsServiceImpl.update(users));
 		
+		return ResponseEntity.ok().body(detailsServiceImpl.update(users));
 		}
 }
