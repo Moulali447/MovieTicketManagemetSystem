@@ -22,10 +22,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Theatres {
+	
 	    @Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;
 		
+		private String username;
+
 		private String theatreName;
 		
 		private int place;
@@ -36,6 +39,6 @@ public class Theatres {
 		
 		@ManyToMany
 	    @JsonIgnore
-	    private List<User> users;
+	    private List<User> user;
 
 }
