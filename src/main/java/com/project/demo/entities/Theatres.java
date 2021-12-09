@@ -3,12 +3,18 @@ package com.project.demo.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,12 +39,17 @@ public class Theatres {
 		
 		private int place;
 		
-		@ManyToOne
-		@JsonProperty(access = Access.WRITE_ONLY)
-		private Movies movies;
-		
-		@ManyToMany
-	    @JsonIgnore
-	    private List<User> user;
+		 @ManyToMany(fetch = FetchType.LAZY)
+		    @JoinTable(name = "movie_theatre", 
+			joinColumns = @JoinColumn(name = "theatre_id", referencedColumnName = "id"), 
+			inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"))
+		    @OrderBy
+		    @JsonIgnore
+		    private List<Movies> movie;
+		    
+		    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+			@JoinColumn
+			@JsonIgnore
+			private User user;
 
 }
