@@ -1,6 +1,7 @@
 package com.project.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,17 +49,17 @@ public class TheatreServiceImpl implements TheatreService {
 	
 	@Override
 	@Transactional
-	public College update(Orgnaizationdto orgnaizationdto) {
+	public Theatres update(TheatreDto dto) {
 		{
 			
-	        Optional<College> collegedb=this.collegeRepository.findById(orgnaizationdto.getId());
+	        Optional<Theatres> collegedb=this.theatreRepo.findById(dto.getId());
 		
 
 			
 			if(collegedb.isPresent()) {
-				College c=collegedb.get();
-				c.setName(orgnaizationdto.getCollege_name());
-				c.setCode(orgnaizationdto.getCollege_code());
+				Theatres c=collegedb.get();
+				c.setName(dto.getCollege_name());
+				c.setCode(dto.getCollege_code());
 				
 		
 				 repository.save(c);
